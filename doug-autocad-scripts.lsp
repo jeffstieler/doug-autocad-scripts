@@ -1,3 +1,6 @@
+; hack for gravel hatch issues
+(setenv "MaxHatch" "100000000")
+
 ;;;  This is part of ABA Standard Macros 
 ;;;  These shortcut macros cannot be implemented in ACAD.PGP.
 (defun toggle (VAR VSTAT VSTAT0 VSTAT1)
