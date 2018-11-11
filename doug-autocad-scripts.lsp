@@ -253,3 +253,22 @@
 
   (princ)
 )
+
+; Stone Wall
+(defun c:sw (/ line side)
+  ; prompt for line selection
+  (setq line (car (entsel "\nSelect line to offset: ")))
+
+  ; prompt for point (side) selection
+  (setq side (getpoint "\nSelect side to offset: "))
+
+  ; first offset on wall space layer (+ 0' 8 1/2")
+  (command ".offset" 8.5 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Wall Space" "")
+
+  ; second offset on col/wall layer (+ 0' 5 1/2")
+  (command ".offset" 14 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Col_Wall" "")
+
+  (princ)
+)
