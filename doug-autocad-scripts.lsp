@@ -101,6 +101,22 @@
 (acet-autoload2	'("FLATTENSUP.LSP"	(acet-flatn ss hide)))
 (princ)
 
+; VP lock
+(defun c:vpl ()
+(prompt "\nSelect viewports to lock:")
+(setq lockedviewports (ssget))
+(command "-vports" "l" "on" lockedviewports "" )
+)
+
+(defun c:vpu ()
+(prompt "\nSelect viewports to unlock:")
+(setq unlockedviewports (ssget))
+(command "-vports" "l" "off" unlockedviewports "" )
+)
+
+(princ "\n\tType VPL to lock viewports, Type VPU to unlock viewports...")
+(princ)
+
 ;Fillet Radius automaticaaly changed to 0" for 90 deg. fillets
 (defun c:fz ()
 	(setq old_filletrad (getvar "filletrad"))
