@@ -274,9 +274,8 @@
 )
 
 ; Stairs
-(defun c:ss (/ i overhang startline side treaddepth staircount direction)
+(defun c:ss (/ i overhang startline side treaddepth staircount)
   ; start with riser (under layer)
-  ; if direction is up, need to create one initial nosing in downstair direction
   ; prompt for line selection
   (setq line (car (entsel "\nSelect start line of staircase: ")))
 
@@ -289,21 +288,12 @@
   ; prompt for stair count
   (setq staircount (getint "\nEnter number of stairs: "))
 
-  ; promt for staircase direction (up or down)
-  (initget 1 "Up Down")
-  (setq direction (getkword "Staircase direction (Up/Down): "))
-
   ; origin line is assumed to be the first riser
   ; it should be on the under layer
   (setq overhang 1.25)
 
-  ; draw first nosing
-  (if (equal "Up" direction)
-    ; TODO: fix first "up" nosing
-    (command ".offset" (* (-1 overhang)) line side "")
-    ; first "down" nosing is just 1 overhang
-    (command ".offset" overhang line side "")
-  )
+  ; first nosing is just 1 overhang
+  (command ".offset" overhang line side "")
   (command ".chprop" (entlast) "" "LA" "A-Stair" "")
 
   (setq i 1)
@@ -313,13 +303,11 @@
     ; put risers on under layer
     (command ".chprop" (entlast) "" "LA" "A-Under" "")
 
-    (if (equal "Up" direction)
-      ; nosing precedes the next riser for "up"
-      (command ".offset" (- (* i (- treaddepth overhang)) overhang) line side "")
-      ; opposite for "down"
-      (command ".offset" (- (* i treaddepth) (* (1- i) overhang)) line side "")
-    )
+    ; next nosing
+    (command ".offset" (- (* i treaddepth) (* (1- i) overhang)) line side "")
+    ; put nosings on stair layer
     (command ".chprop" (entlast) "" "LA" "A-Stair" "")
+
     (setq i (1+ i))
   )
   
