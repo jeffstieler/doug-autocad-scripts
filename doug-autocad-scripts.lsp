@@ -192,3 +192,64 @@
   	(setq att "*** Resetting system variable has been done ***")
   	(princ att)
 )
+
+; Casework Offset
+(defun c:co (/ line side)
+  ; prompt for line selection
+  (setq line (car (entsel "\nSelect line to offset: ")))
+
+  ; prompt for point (side) selection
+  (setq side (getpoint "\nSelect side to offset: "))
+
+  ; first offset on overhead layer (+ 1' 0")
+  (command ".offset" 12 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Overhead" "")
+
+  ; second offset on under layer (+ 1' 0")
+  (command ".offset" 24 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Under" "")
+
+  ; third offset on casework layer (+ 0' 1 1/4")
+  (command ".offset" 25.25 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Casework" "")
+
+  (princ)
+)
+
+; Rod & Shelf Offset
+(defun c:rs (/ line side)
+  ; prompt for line selection
+  (setq line (car (entsel "\nSelect line to offset: ")))
+
+  ; prompt for point (side) selection
+  (setq side (getpoint "\nSelect side to offset: "))
+
+  ; first offset on overhead layer (+ 1' 0")
+  (command ".offset" 12 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Overhead" "")
+
+  ; second offset on casework layer (+ 0' 2")
+  (command ".offset" 14 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Casework" "")
+
+  (princ)
+)
+
+; Vanity Offset
+(defun c:vo (/ line side)
+  ; prompt for line selection
+  (setq line (car (entsel "\nSelect line to offset: ")))
+
+  ; prompt for point (side) selection
+  (setq side (getpoint "\nSelect side to offset: "))
+
+  ; first offset on under layer (+ 1' 9")
+  (command ".offset" 21 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Under" "")
+
+  ; second offset on casework layer (+ 0' 1 1/4")
+  (command ".offset" 22.25 line side "")
+  (command ".chprop" (entlast) "" "LA" "A-Casework" "")
+
+  (princ)
+)
