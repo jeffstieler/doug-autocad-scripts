@@ -297,7 +297,14 @@
   ; it should be on the under layer
   (setq overhang 1.25)
 
-  ; TODO = draw first nosing
+  ; draw first nosing
+  (if (equal "Up" direction)
+    ; TODO: fix first "up" nosing
+    (command ".offset" (* (-1 overhang)) line side "")
+    ; first "down" nosing is just 1 overhang
+    (command ".offset" overhang line side "")
+  )
+  (command ".chprop" (entlast) "" "LA" "A-Stair" "")
 
   (setq i 1)
   (while (<= i staircount)
